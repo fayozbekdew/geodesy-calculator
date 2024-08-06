@@ -17,7 +17,7 @@ function Navbar() {
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal flex items-center gap-x-10">
-          <li className="">
+          <li className="border rounded-md">
             <Link to="/calculate">Calculate</Link>
           </li>
           <label className="swap swap-rotate w-[10px]">
