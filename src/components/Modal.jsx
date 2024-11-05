@@ -6,6 +6,7 @@ function Modal({ value, setValue }) {
   const workerCountRef = useRef();
   const workAreaRef = useRef();
   const monthSalaryRef = useRef();
+  const measurementRef = useRef();
   const koef1 = 1.5;
   const koef2 = 1.53;
   const workType = [
@@ -16,6 +17,13 @@ function Modal({ value, setValue }) {
     "Taxeometrda syomka qilish",
     "Dala ishlari",
     "Kameral ishlari",
+    "Qishloq xo'jalik yerlarini topografik syomkasi",
+    "Qurilish xududini topografik syomka qilish",
+    "Sanoat bino va inshootlarini topografik syomka qilish",
+    "Daraxtzorlarni syomka qilish",
+    "Dendroplan va yashil maydonlarning jurnalini tuzish",
+    "Qurilishni geodezik taminlash",
+    "Yer osti komunikatsiyalarini syomka qilish",
   ];
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,12 +32,13 @@ function Modal({ value, setValue }) {
     const workArea = workAreaRef.current.value;
     const workHigh = workHighRef.current.value;
     const monthSalary = monthSalaryRef.current.value;
+    const measurement = measurementRef.current.value;
     const newValue = {
       workName: workerType,
       workComplexity: workHigh,
       koef1: koef1,
       koef2: koef2,
-      workMeasurement: "punkt",
+      workMeasurement: measurement,
       workArea,
       workerCount,
       resourceForWork: koef1 * koef2 * workArea * workerCount,
@@ -43,11 +52,8 @@ function Modal({ value, setValue }) {
         koef1 * koef2 * workArea * workerCount * (monthSalary / 156) * 0.11,
       salaryForInstrument:
         koef1 * koef2 * workArea * workerCount * (monthSalary / 156) * 0.05,
-    }
-    setValue([
-      ...value,
-      newValue
-    ]);
+    };
+    setValue([...value, newValue]);
     localStorage.setItem("value", JSON.stringify([...value, newValue]));
   };
   return (
@@ -75,12 +81,21 @@ function Modal({ value, setValue }) {
             placeholder="Worker count"
             className="input input-bordered input-primary w-full "
           />
-          <input
-            ref={workAreaRef}
-            type="number"
-            placeholder="Work area"
-            className="input input-bordered input-primary w-full "
-          />
+          <div className="flex items-center justify-between">
+            <input
+              ref={workAreaRef}
+              type="number"
+              placeholder="Work area"
+              className="input input-bordered input-primary w-full "
+            />
+            <select ref={measurementRef} className="select select-primary w-full ml-3 max-w-[120px]">
+              <option disabled selected>
+                O'lchov
+              </option>
+              <option value='punkt'>punkt</option>
+              <option value='km'>km</option>
+            </select>
+          </div>
           <input
             ref={monthSalaryRef}
             type="number"
